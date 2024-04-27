@@ -1,8 +1,8 @@
 let modInfo = {
-	name: "The ??? Tree",
-	id: "mymod",
-	author: "nobody",
-	pointsName: "points",
+	name: "The SCP Tree",
+	id: "SCP-05",
+	author: "[ARGON1321]",
+	pointsName: "Fabric of reality",
 	modFiles: ["layers.js", "tree.js"],
 
 	discordName: "",
@@ -41,8 +41,9 @@ function canGenPoints(){
 function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
-
 	let gain = new Decimal(1)
+	if (hasUpgrade('r', 11)) gain = gain.times(2)
+	if (hasUpgrade('r', 12)) gain = gain.times(3)
 	return gain
 }
 
