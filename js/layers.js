@@ -15,6 +15,7 @@ addLayer("r", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+        if (hasUpgrade('r', 14)) mult = mult.times(upgradeEffect('r', 14))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -33,12 +34,12 @@ addLayer("r", {
         },
         12: {
             title: "Stars",
-            description: "Add Hydrogen, in turn gravity makes them into stars.",
+            description: "Add Hydrogen, in turn gravity makes them into stars. A prerequisite for many things.",
             cost: new Decimal(3),
         },
         13: {
             title: "Matter",
-            description: "Adds matter around stars, causing orbits.",
+            description: "Adds matter around stars, causing orbits. Allows for expansion by making cloths, giving more points.",
             cost: new Decimal(5),
             effect() {
                 return player[this.layer].points.add(1).pow(0.5)
@@ -47,16 +48,13 @@ addLayer("r", {
         },
         14: {
             title: "Gravity",
-            description: "Add some gravity, to cause matter to clump.",
+            description: "Add some gravity, to cause matter to clump. Increases your cloth production.",
             cost: new Decimal(20),
             effect() {
-                return player.points.add(1).pow(0.15)
+                return player.points.add(1).pow(0.5)
             },
-            gainMult() {
-                let mult = new Decimal(1)
-                if (hasUpgrade('p', 13)) mult = mult.times(upgradeEffect('p', 13))
-                return mult
-            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect
         },
     },
+
 })
