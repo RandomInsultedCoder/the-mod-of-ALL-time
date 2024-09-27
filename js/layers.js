@@ -50,9 +50,13 @@ addLayer("r", {
             description: "Add some gravity, to cause matter to clump.",
             cost: new Decimal(20),
             effect() {
-                return player[this.layer].points.add(2).pow(0.1)
+                return player.points.add(1).pow(0.15)
             },
-            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect
+            gainMult() {
+                let mult = new Decimal(1)
+                if (hasUpgrade('p', 13)) mult = mult.times(upgradeEffect('p', 13))
+                return mult
+            },
         },
     },
 })
