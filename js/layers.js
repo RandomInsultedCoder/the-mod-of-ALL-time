@@ -8,7 +8,7 @@ addLayer("r", {
     }},
     color: "#4BDC13",
     requires: new Decimal(10), // Can be a function that takes requirement increases into account
-    resource: "Matter", // Name of prestige currency
+    resource: "Reality cloth", // Name of prestige currency
     baseResource: "Reality fabrics", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
@@ -22,7 +22,7 @@ addLayer("r", {
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "1", description: "Press 1 to produce reality cloth.", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return true},
     upgrades: {
@@ -35,6 +35,24 @@ addLayer("r", {
             title: "Stars",
             description: "Add Hydrogen, in turn gravity makes them into stars.",
             cost: new Decimal(3),
+        },
+        13: {
+            title: "Matter",
+            description: "Adds matter around stars, causing orbits.",
+            cost: new Decimal(5),
+            effect() {
+                return player[this.layer].points.add(1).pow(0.5)
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect
+        },
+        14: {
+            title: "Gravity",
+            description: "Add some gravity, to cause matter to clump.",
+            cost: new Decimal(20),
+            effect() {
+                return player[this.layer].points.add(2).pow(0.1)
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect
         },
     },
 })
