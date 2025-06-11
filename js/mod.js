@@ -38,16 +38,33 @@ function canGenPoints(){
 }
 
 // Calculate points/sec!
+// This function should be in your mod.js file (or wherever you defined it originally)
+
 function getPointGen() {
-	if(!canGenPoints())
+	// canGenPoints() is a function that should return true when you want to start generating points.
+	// For this game, that's probably as soon as the game starts, or after buying the first upgrade.
+	// We'll assume it's true after buying upgrade r, 11.
+	if (!canGenPoints() || !hasUpgrade('r', 11))
 		return new Decimal(0)
+
+	// Start with a base gain of 1 "Reality fabric" per second.
+	// Upgrade r, 11 ("Universe existence") enables this.
 	let gain = new Decimal(1)
-	if (hasUpgrade('r', 11)) gain = gain.times(2)
-	if (hasUpgrade('r', 12)) gain = gain.times(3)
+
+	// --- REALITY (r) LAYER BONUSES ---
+
+	// Upgrade r, 13 ("Matter") boosts fabric gain based on your Reality cloth.
 	if (hasUpgrade('r', 13)) gain = gain.times(upgradeEffect('r', 13))
+
+	// Upgrade r, 22 ("Stellar Fusion") boosts fabric gain based on your total Reality cloth.
+	if (hasUpgrade('r', 22)) gain = gain.times(upgradeEffect('r', 22))
+
+
+	// --- (Add bonuses from other future layers here) ---
+
+
 	return gain
 }
-
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
 function addedPlayerData() { return {
 }}
